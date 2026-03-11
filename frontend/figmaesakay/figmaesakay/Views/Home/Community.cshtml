@@ -1,0 +1,132 @@
+@{
+    ViewData["Title"] = "Community";
+}
+
+<style>
+    .tab-btn.active { background-color: var(--success-green); color: white; border: none; }
+    .tab-btn { background-color: white; border: 1px solid #ddd; color: #555; transition: 0.3s; }
+    .like-btn.liked { color: #DC2626; } /* Red Heart */
+</style>
+
+<div class="header-blue pb-5">
+    <div class="d-flex justify-content-between align-items-center">
+        <h2 class="fw-bold m-0">Community</h2>
+        <button class="btn btn-sm btn-light text-primary fw-bold rounded-pill px-3" onclick="document.getElementById('postInput').focus()">
+            <i class="fa-solid fa-pen-to-square"></i> Post
+        </button>
+    </div>
+    <p class="mb-0 opacity-75">Connect with fellow commuters</p>
+</div>
+
+<div class="app-container px-3" style="margin-top: -30px; background: transparent; box-shadow: none;">
+    
+    <!-- TABS (CLICKABLE) -->
+    <div class="d-flex gap-2 mb-3 overflow-auto">
+        <button class="btn rounded-pill px-4 btn-sm tab-btn active" onclick="switchTab('feed', this)">Feed</button>
+        <button class="btn rounded-pill px-4 btn-sm tab-btn" onclick="switchTab('reports', this)">Reports</button>
+        <button class="btn rounded-pill px-4 btn-sm tab-btn" onclick="switchTab('eco', this)">Eco-Friendly</button>
+    </div>
+
+    <!-- FEED SECTION -->
+    <div id="feedSection">
+        <!-- Create Post Box -->
+        <div class="bg-white p-3 rounded-3 shadow-sm mb-3">
+            <textarea id="postInput" class="form-control border-0 bg-light mb-2" rows="2" placeholder="Share tips, experiences, or updates..."></textarea>
+            <div class="text-end">
+                <button class="btn btn-primary btn-sm rounded-pill px-4" onclick="addPost()">Post</button>
+            </div>
+        </div>
+
+        <!-- POSTS CONTAINER -->
+        <div id="postsContainer">
+            <!-- Sample Post -->
+            <div class="bg-white p-3 rounded-3 shadow-sm mb-3 post-item">
+                <div class="d-flex align-items-center mb-2">
+                    <div class="bg-warning rounded-circle d-flex align-items-center justify-content-center text-white fw-bold me-2" style="width:35px; height:35px;">M</div>
+                    <div>
+                        <h6 class="m-0 fw-bold" style="font-size: 0.9rem;">Maria Santos</h6>
+                        <small class="text-muted" style="font-size: 0.7rem;">Just now</small>
+                    </div>
+                    <span class="badge bg-primary-subtle text-primary ms-auto">Tip</span>
+                </div>
+                <p class="small mb-2">New jeepney route from Fatima Uhaw to City Mall! Fare is ₱15.</p>
+                <div class="d-flex gap-3 text-muted small border-top pt-2 mt-2">
+                    <span class="like-btn" onclick="toggleLike(this)" style="cursor:pointer"><i class="fa-regular fa-heart"></i> <span>24</span></span>
+                    <span onclick="alert('Comment section coming soon!')" style="cursor:pointer"><i class="fa-regular fa-comment"></i> Comment</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- REPORTS SECTION -->
+    <div id="reportsSection" class="d-none text-center py-5">
+        <i class="fa-solid fa-triangle-exclamation text-warning mb-3" style="font-size: 3rem;"></i>
+        <h5>No Incidents Reported</h5>
+        <button class="btn btn-outline-danger rounded-pill mt-3">Report Incident</button>
+    </div>
+
+    <!-- ECO SECTION -->
+    <div id="ecoSection" class="d-none text-center py-5">
+        <i class="fa-solid fa-leaf text-success mb-3" style="font-size: 3rem;"></i>
+        <h5>Eco-Friendly Rides</h5>
+        <p class="text-muted">Coming Soon</p>
+    </div>
+
+</div>
+
+<!-- JAVASCRIPT FOR COMMUNITY -->
+<script>
+    function switchTab(tabName, btn) {
+        // Hide sections
+        document.getElementById('feedSection').classList.add('d-none');
+        document.getElementById('reportsSection').classList.add('d-none');
+        document.getElementById('ecoSection').classList.add('d-none');
+        
+        // Show selected
+        document.getElementById(tabName + 'Section').classList.remove('d-none');
+
+        // Update Buttons
+        let buttons = document.getElementsByClassName('tab-btn');
+        for(let b of buttons) b.classList.remove('active');
+        btn.classList.add('active');
+    }
+
+    function addPost() {
+        let text = document.getElementById('postInput').value;
+        if(text.trim() === "") return;
+
+        let html = `
+            <div class="bg-white p-3 rounded-3 shadow-sm mb-3 post-item">
+                <div class="d-flex align-items-center mb-2">
+                    <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center text-white fw-bold me-2" style="width:35px; height:35px;">Me</div>
+                    <div><h6 class="m-0 fw-bold" style="font-size: 0.9rem;">You</h6><small class="text-muted" style="font-size: 0.7rem;">Just now</small></div>
+                </div>
+                <p class="small mb-2">${text}</p>
+                <div class="d-flex gap-3 text-muted small border-top pt-2 mt-2">
+                    <span class="like-btn" onclick="toggleLike(this)" style="cursor:pointer"><i class="fa-regular fa-heart"></i> <span>0</span></span>
+                    <span style="cursor:pointer"><i class="fa-regular fa-comment"></i> Comment</span>
+                </div>
+            </div>`;
+        
+        document.getElementById('postsContainer').insertAdjacentHTML('afterbegin', html);
+        document.getElementById('postInput').value = "";
+    }
+
+    function toggleLike(btn) {
+        let icon = btn.querySelector('i');
+        let count = btn.querySelector('span');
+        let current = parseInt(count.innerText);
+
+        if(btn.classList.contains('liked')) {
+            btn.classList.remove('liked');
+            icon.classList.remove('fa-solid');
+            icon.classList.add('fa-regular');
+            count.innerText = current - 1;
+        } else {
+            btn.classList.add('liked');
+            icon.classList.remove('fa-regular');
+            icon.classList.add('fa-solid');
+            count.innerText = current + 1;
+        }
+    }
+</script>

@@ -1,0 +1,93 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<!-- HEADER -->
+<div class="header-blue">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <p>Welcome back,</p>
+            <!-- DYNAMIC NAME -->
+            <h1 class="text-capitalize">@ViewBag.UserName</h1>
+            
+            <div class="mt-2 text-white-50">
+                <i class="fa-solid fa-location-dot me-1"></i> <span class="badge bg-white text-primary">@ViewBag.UserType</span>
+            </div>
+        </div>
+        
+        <!-- HEADER ICONS (CLICKABLE NA ITO) -->
+        <div class="header-icons">
+            <a asp-controller="Account" asp-action="Notifications" class="btn-icon text-decoration-none d-inline-flex align-items-center justify-content-center text-white">
+                <i class="fa-regular fa-bell"></i>
+            </a>
+            <a asp-controller="Account" asp-action="Profile" class="btn-icon ms-2 text-decoration-none d-inline-flex align-items-center justify-content-center text-white">
+                <i class="fa-regular fa-user"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- QUICK ACTIONS GRID -->
+<div class="quick-action-grid">
+    <div class="text-start w-100 mb-2" style="grid-column: span 3; color: #555; font-weight: 600;">Quick Actions</div>
+
+    <a asp-controller="Ride" asp-action="Track" class="action-item">
+        <div class="icon-circle bg-blue"><i class="fa-solid fa-map-location-dot"></i></div>
+        <span>Track Vehicle</span>
+    </a>
+
+    <a asp-controller="Ride" asp-action="Fare" class="action-item">
+        <div class="icon-circle bg-green"><i class="fa-solid fa-calculator"></i></div>
+        <span>Calculate Fare</span>
+    </a>
+
+    <a href="#" class="action-item">
+        <div class="icon-circle bg-purple"><i class="fa-solid fa-route"></i></div>
+        <span>Find Route</span>
+    </a>
+
+    <a href="#" class="action-item">
+        <div class="icon-circle bg-orange"><i class="fa-solid fa-credit-card"></i></div>
+        <span>Payment</span>
+    </a>
+
+    <a asp-controller="Ride" asp-action="Safety" class="action-item">
+        <div class="icon-circle bg-red"><i class="fa-solid fa-shield-halved"></i></div>
+        <span>Safety</span>
+    </a>
+
+    <a asp-controller="Home" asp-action="Community" class="action-item">
+        <div class="icon-circle bg-teal"><i class="fa-solid fa-users"></i></div>
+        <span>Community</span>
+    </a>
+</div>
+
+<!-- EMERGENCY BUTTON -->
+<div class="px-4 mb-4">
+    <a asp-controller="Ride" asp-action="Safety" class="btn-sos">
+        <i class="fa-solid fa-shield-virus"></i> Emergency SOS
+    </a>
+</div>
+
+<!-- RECENT TRIPS -->
+<div class="px-4 pb-4">
+    <h5 class="mb-3" style="font-weight: 700; color: var(--text-dark);">Recent Trips</h5>
+    
+    <div class="bg-white p-3 rounded-3 shadow-sm mb-3 d-flex justify-content-between align-items-center">
+        <div>
+            <div class="d-flex align-items-center mb-1">
+                <i class="fa-solid fa-circle text-success me-2" style="font-size: 8px;"></i>
+                <span class="fw-bold text-dark">Brgy. Fatima Uhaw</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <i class="fa-solid fa-circle text-danger me-2" style="font-size: 8px;"></i>
+                <span class="fw-bold text-dark">City Hall</span>
+            </div>
+            <small class="text-muted mt-1 d-block">2 hours ago</small>
+        </div>
+        <div class="text-end">
+            <h6 class="text-primary fw-bold mb-0">₱25.00</h6>
+            <small class="text-muted">Tricycle</small>
+        </div>
+    </div>
+</div>

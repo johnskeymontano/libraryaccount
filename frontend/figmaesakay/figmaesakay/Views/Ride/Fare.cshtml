@@ -1,0 +1,156 @@
+@{
+    ViewData["Title"] = "Fare Calculator";
+}
+
+<style>
+    /* Style para sa Selected Button */
+    .btn-selected {
+        background-color: var(--primary-blue) !important; /* Blue pag selected */
+        color: white !important;
+        border-color: var(--primary-blue) !important;
+    }
+    
+    .btn-vehicle {
+        transition: all 0.3s;
+    }
+</style>
+
+<div class="header-blue pb-5">
+    <h2 class="fw-bold m-0">Fare Calculator</h2>
+    <p class="mb-0 opacity-75">Calculate your trip cost</p>
+</div>
+
+<div class="app-container px-3" style="margin-top: -30px; background: transparent; box-shadow: none;">
+
+    <div class="bg-white p-4 rounded-3 shadow-sm">
+        
+        <!-- INPUTS -->
+        <div class="mb-3">
+            <label class="fw-bold small mb-1 text-success"><i class="fa-solid fa-circle-dot me-1"></i> From (Origin)</label>
+            <input type="text" id="originInput" class="form-control" style="background:#F3F4F6; border:none; padding:12px; border-radius:12px;" placeholder="Current Location" value="Brgy. Fatima Uhaw">
+        </div>
+
+        <div class="mb-3">
+            <label class="fw-bold small mb-1 text-danger"><i class="fa-solid fa-location-dot me-1"></i> To (Destination)</label>
+            <input type="text" id="destinationInput" class="form-control" style="background:#F3F4F6; border:none; padding:12px; border-radius:12px;" placeholder="Enter destination (e.g. SM GenSan)">
+        </div>
+
+        <!-- VEHICLE TYPE SELECTION -->
+        <label class="fw-bold small mb-2 d-block">Select Vehicle</label>
+        <div class="d-flex gap-2 mb-3">
+            <button type="button" class="btn btn-outline-secondary w-100 btn-vehicle rounded-3 py-2" onclick="selectVehicle('Jeepney', this)">
+                <i class="fa-solid fa-bus-simple d-block mb-1"></i> Jeepney
+            </button>
+            <button type="button" class="btn btn-outline-secondary w-100 btn-vehicle rounded-3 py-2" onclick="selectVehicle('Tricycle', this)">
+                <i class="fa-solid fa-bicycle d-block mb-1"></i> Tricycle
+            </button>
+            <button type="button" class="btn btn-outline-secondary w-100 btn-vehicle rounded-3 py-2" onclick="selectVehicle('Taxi', this)">
+                <i class="fa-solid fa-taxi d-block mb-1"></i> Taxi
+            </button>
+        </div>
+
+        <!-- PASSENGER TYPE -->
+        <div class="mb-4">
+            <label class="fw-bold small mb-2 d-block">Passenger Type</label>
+            <select id="passengerType" class="form-select" style="background:#F3F4F6; border:none; padding:12px; border-radius:12px;">
+                <option value="Regular">Regular</option>
+                <option value="Discounted">Student / Senior / PWD (20% Off)</option>
+            </select>
+        </div>
+
+        <!-- CALCULATE BUTTON -->
+        <button type="button" onclick="calculateFare()" class="btn btn-primary w-100 py-3 rounded-3 fw-bold shadow-sm mb-3" style="background-color: var(--primary-yellow); color: var(--dark-navy); border:none;">
+            <i class="fa-solid fa-calculator me-2"></i> Calculate Fare
+        </button>
+
+        <!-- RESULT AREA (Hidden initially) -->
+        <div id="resultArea" class="bg-light p-3 rounded-3 text-center border d-none">
+            <small class="text-muted">Estimated Fare</small>
+            <h1 class="fw-bold text-primary my-1" id="fareAmount">₱0.00</h1>
+            <small class="text-muted" id="tripDetails">Distance: 0 km</small>
+        </div>
+
+    </div>
+
+    <!-- Info Alert -->
+    <div class="mt-3 p-3 bg-white border rounded-3 d-flex align-items-start shadow-sm">
+        <i class="fa-solid fa-circle-info text-primary mt-1 me-2"></i>
+        <small class="text-muted">
+            <strong>Fare Matrix:</strong><br>
+            Jeepney: ₱13.00 Base + ₱1.50/km<br>
+            Tricycle: ₱15.00 Base + ₱2.00/km<br>
+            Taxi: ₱40.00 Base + ₱13.50/km
+        </small>
+    </div>
+</div>
+
+<!-- JAVASCRIPT LOGIC -->
+<script>
+    let selectedVehicleType = ""; // Dito save kung Jeep o Tricycle
+
+    // Function para sa pag-click ng Vehicle Buttons
+    function selectVehicle(type, btnElement) {
+        selectedVehicleType = type;
+
+        // Reset lahat ng buttons to gray
+        let buttons = document.getElementsByClassName('btn-vehicle');
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].classList.remove('btn-selected');
+            buttons[i].classList.remove('btn-outline-primary');
+            buttons[i].classList.add('btn-outline-secondary');
+        }
+
+        // Kulayan ang pinindot na button
+        btnElement.classList.remove('btn-outline-secondary');
+        btnElement.classList.add('btn-selected');
+    }
+
+    // Function para sa Computation
+    function calculateFare() {
+        // 1. Check kung may laman ang Destination
+        let destination = document.getElementById('destinationInput').value;
+        if (destination === "") {
+            alert("Please enter a destination!");
+            return;
+        }
+
+        // 2. Check kung may piniling sasakyan
+        if (selectedVehicleType === "") {
+            alert("Please select a vehicle type (Jeepney, Tricycle, or Taxi).");
+            return;
+        }
+
+        // 3. Fake Distance Generator (Since wala tayong GPS map)
+        // Kunwari nag generate ng distance between 2km to 12km based sa destination length
+        let distance = Math.floor(Math.random() * 10) + 2; 
+
+        // 4. Set Prices
+        let baseFare = 0;
+        let perKm = 0;
+
+        if (selectedVehicleType === 'Jeepney') {
+            baseFare = 13.00; // Base fare ng Jeep
+            perKm = 1.50;
+        } else if (selectedVehicleType === 'Tricycle') {
+            baseFare = 15.00; // Base fare ng Tricycle
+            perKm = 2.00;
+        } else if (selectedVehicleType === 'Taxi') {
+            baseFare = 40.00; // Base fare ng Taxi
+            perKm = 13.50;
+        }
+
+        // 5. Calculate Total
+        let totalFare = baseFare + (distance * perKm);
+
+        // 6. Apply Discount
+        let passengerType = document.getElementById('passengerType').value;
+        if (passengerType === 'Discounted') {
+            totalFare = totalFare * 0.80; // 20% Off
+        }
+
+        // 7. Show Result
+        document.getElementById('resultArea').classList.remove('d-none'); // Show box
+        document.getElementById('fareAmount').innerText = "₱" + totalFare.toFixed(2);
+        document.getElementById('tripDetails').innerText = selectedVehicleType + " • " + distance + " km approx.";
+    }
+</script>

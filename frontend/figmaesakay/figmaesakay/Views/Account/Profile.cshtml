@@ -1,0 +1,43 @@
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="header-blue pb-5">
+    <h2 class="fw-bold m-0">My Profile</h2>
+    <p class="mb-0 opacity-75">Manage your account</p>
+</div>
+
+<div class="app-container px-3" style="margin-top: -40px; background: transparent; box-shadow: none;">
+    
+    <!-- Profile Card -->
+    <div class="bg-white p-4 rounded-3 shadow-sm text-center mb-3">
+        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px; font-size: 2rem; font-weight: bold;">
+            @if(ViewBag.Name != null) { @ViewBag.Name[0] } else { <span>U</span> }
+        </div>
+        <h4 class="fw-bold m-0">@ViewBag.Name</h4>
+        <p class="text-muted">@ViewBag.Email</p>
+        <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill">@ViewBag.Type</span>
+    </div>
+
+    <!-- Menu Options -->
+    <div class="bg-white rounded-3 shadow-sm overflow-hidden mb-4">
+        <a href="#" class="d-flex justify-content-between align-items-center p-3 text-decoration-none text-dark border-bottom">
+            <span><i class="fa-regular fa-user me-3 text-primary"></i> Edit Profile</span>
+            <i class="fa-solid fa-chevron-right text-muted small"></i>
+        </a>
+        <a href="#" class="d-flex justify-content-between align-items-center p-3 text-decoration-none text-dark border-bottom">
+            <span><i class="fa-solid fa-clock-rotate-left me-3 text-warning"></i> Ride History</span>
+            <i class="fa-solid fa-chevron-right text-muted small"></i>
+        </a>
+        <a href="#" class="d-flex justify-content-between align-items-center p-3 text-decoration-none text-dark">
+            <span><i class="fa-solid fa-gear me-3 text-secondary"></i> Settings</span>
+            <i class="fa-solid fa-chevron-right text-muted small"></i>
+        </a>
+    </div>
+
+    <!-- LOGOUT BUTTON (Clickable) -->
+    <a asp-controller="Account" asp-action="Logout" class="btn btn-danger w-100 py-3 rounded-3 fw-bold shadow-sm">
+        <i class="fa-solid fa-right-from-bracket me-2"></i> Log Out
+    </a>
+
+</div>

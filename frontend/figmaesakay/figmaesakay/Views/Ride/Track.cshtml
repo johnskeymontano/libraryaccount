@@ -1,0 +1,183 @@
+@{
+    ViewData["Title"] = "Track Vehicle";
+}
+
+<style>
+    /* Mapa Container */
+    .map-container {
+        height: 45vh;
+        width: 100%;
+        background-color: #e0e0e0;
+        position: relative;
+    }
+
+    /* Active Filter Button Style */
+    .filter-btn.active {
+        background-color: var(--primary-blue);
+        color: white;
+        border-color: var(--primary-blue);
+    }
+    
+    .filter-btn {
+        background-color: white;
+        border: 1px solid #ddd;
+        color: #555;
+        transition: all 0.3s ease;
+    }
+
+    /* Vehicle Card Animation */
+    .vehicle-card {
+        transition: all 0.3s;
+    }
+</style>
+
+<!-- MAP SECTION -->
+<div class="map-container">
+    <!-- Static Image Map (Placeholder) -->
+    <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=125.160%2C6.100%2C125.185%2C6.125&amp;layer=mapnik" style="filter: grayscale(20%);"></iframe>
+    
+    <!-- My Location Pin -->
+    <div style="position: absolute; bottom: 20px; right: 20px; background: white; padding: 12px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.2); cursor: pointer;">
+        <i class="fa-solid fa-crosshairs text-primary" style="font-size: 1.2rem;"></i>
+    </div>
+</div>
+
+<!-- LIST SECTION -->
+<div class="bg-white rounded-top-4 p-4 shadow-lg" style="margin-top: -20px; position: relative; min-height: 55vh; border-top: 5px solid var(--primary-yellow);">
+    
+    <!-- Drag Handle -->
+    <div class="d-flex justify-content-center mb-3">
+        <div style="width: 50px; height: 5px; background: #e0e0e0; border-radius: 5px;"></div>
+    </div>
+    
+    <!-- FILTER BUTTONS (Gumagana na ito) -->
+    <div class="d-flex gap-2 overflow-auto mb-4 pb-1">
+        <button class="btn rounded-pill px-4 filter-btn active" onclick="filterVehicles('all', this)">
+            All
+        </button>
+        <button class="btn rounded-pill px-4 filter-btn" onclick="filterVehicles('jeepney', this)">
+            Jeepney
+        </button>
+        <button class="btn rounded-pill px-4 filter-btn" onclick="filterVehicles('tricycle', this)">
+            Tricycle
+        </button>
+        <button class="btn rounded-pill px-4 filter-btn" onclick="filterVehicles('bus', this)">
+            Bus
+        </button>
+    </div>
+
+    <h6 class="fw-bold mb-3 text-dark">Nearby Vehicles <span id="countBadge" class="badge bg-secondary rounded-pill ms-1">4</span></h6>
+
+    <!-- VEHICLE LIST CONTAINER -->
+    <div id="vehicleList">
+
+        <!-- ITEM 1: JEEPNEY -->
+        <div class="vehicle-card border rounded-3 p-3 mb-3 d-flex justify-content-between align-items-center" data-type="jeepney">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="badge bg-success">Jeepney</span>
+                    <span class="fw-bold text-dark">ABC-1234</span>
+                </div>
+                <small class="text-muted"><i class="fa-solid fa-route text-warning me-1"></i> City Hall - Bulaong</small>
+            </div>
+            <div class="text-end">
+                <span class="text-primary fw-bold small"><i class="fa-solid fa-person-walking"></i> 5 min</span>
+                <small class="d-block text-muted" style="font-size: 0.75rem;">0.8 km away</small>
+            </div>
+        </div>
+
+        <!-- ITEM 2: TRICYCLE -->
+        <div class="vehicle-card border rounded-3 p-3 mb-3 d-flex justify-content-between align-items-center" data-type="tricycle">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="badge text-white" style="background-color: #9333EA;">Tricycle</span>
+                    <span class="fw-bold text-dark">XYZ-5678</span>
+                </div>
+                <small class="text-muted"><i class="fa-solid fa-route text-warning me-1"></i> Fatima Uhaw - Terminal</small>
+            </div>
+            <div class="text-end">
+                <span class="text-primary fw-bold small"><i class="fa-solid fa-person-walking"></i> 2 min</span>
+                <small class="d-block text-muted" style="font-size: 0.75rem;">0.3 km away</small>
+            </div>
+        </div>
+
+        <!-- ITEM 3: JEEPNEY -->
+        <div class="vehicle-card border rounded-3 p-3 mb-3 d-flex justify-content-between align-items-center" data-type="jeepney">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="badge bg-success">Jeepney</span>
+                    <span class="fw-bold text-dark">JEP-9911</span>
+                </div>
+                <small class="text-muted"><i class="fa-solid fa-route text-warning me-1"></i> Lagao - Palengke</small>
+            </div>
+            <div class="text-end">
+                <span class="text-primary fw-bold small"><i class="fa-solid fa-person-walking"></i> 12 min</span>
+                <small class="d-block text-muted" style="font-size: 0.75rem;">1.5 km away</small>
+            </div>
+        </div>
+
+        <!-- ITEM 4: BUS -->
+        <div class="vehicle-card border rounded-3 p-3 mb-3 d-flex justify-content-between align-items-center" data-type="bus">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="badge bg-warning text-dark">Bus</span>
+                    <span class="fw-bold text-dark">BUS-2025</span>
+                </div>
+                <small class="text-muted"><i class="fa-solid fa-route text-warning me-1"></i> Gensan - Davao</small>
+            </div>
+            <div class="text-end">
+                <span class="text-primary fw-bold small"><i class="fa-solid fa-person-walking"></i> 25 min</span>
+                <small class="d-block text-muted" style="font-size: 0.75rem;">5.2 km away</small>
+            </div>
+        </div>
+
+    </div>
+    
+    <!-- Empty State (Hidden by default) -->
+    <div id="noData" class="text-center py-5 d-none">
+        <i class="fa-solid fa-road text-muted mb-2" style="font-size: 2rem;"></i>
+        <p class="text-muted">No vehicles found nearby.</p>
+    </div>
+
+</div>
+
+<!-- JAVASCRIPT LOGIC (Ito ang nagpapagana sa clicks) -->
+<script>
+    function filterVehicles(type, btnElement) {
+        // 1. Highlight the Active Button
+        // Tanggalin ang 'active' class sa lahat ng buttons
+        let buttons = document.getElementsByClassName('filter-btn');
+        for (let btn of buttons) {
+            btn.classList.remove('active');
+        }
+        // Ilagay ang 'active' class sa pinindot na button
+        btnElement.classList.add('active');
+
+        // 2. Filter the List
+        let cards = document.getElementsByClassName('vehicle-card');
+        let visibleCount = 0;
+
+        for (let card of cards) {
+            let vehicleType = card.getAttribute('data-type'); // Kunin kung jeepney o tricycle
+
+            if (type === 'all' || vehicleType === type) {
+                card.classList.remove('d-none'); // Ipakita
+                card.classList.add('d-flex');
+                visibleCount++;
+            } else {
+                card.classList.add('d-none');    // Itago
+                card.classList.remove('d-flex');
+            }
+        }
+
+        // 3. Update Count Badge
+        document.getElementById('countBadge').innerText = visibleCount;
+
+        // 4. Show "No Data" if count is 0
+        if (visibleCount === 0) {
+            document.getElementById('noData').classList.remove('d-none');
+        } else {
+            document.getElementById('noData').classList.add('d-none');
+        }
+    }
+</script>

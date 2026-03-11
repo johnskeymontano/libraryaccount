@@ -1,0 +1,46 @@
+@{
+    ViewData["Title"] = "Fare Calculator";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            
+            <a asp-controller="Home" asp-action="Index" class="text-decoration-none text-muted mb-3 d-inline-block">
+                &larr; Back to Home
+            </a>
+
+            <div class="card-custom" style="border-top: 5px solid var(--primary-yellow);">
+                <h3 class="mb-4" style="color: var(--dark-navy);">🧮 Fare Calculator</h3>
+                <p class="text-muted small">Alamin ang tamang pasahe bago sumakay.</p>
+
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">Distance (km)</label>
+                        <input type="number" class="form-control" placeholder="Example: 5" id="distanceInput">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Passenger Type</label>
+                        <select class="form-control">
+                            <option>Regular</option>
+                            <option>Student (20% Discount)</option>
+                            <option>Senior/PWD (20% Discount)</option>
+                        </select>
+                    </div>
+
+                    <button type="button" class="btn-esakay-secondary" onclick="alert('Ang estimated fare ay: ₱25.00')">
+                        Calculate Fare
+                    </button>
+                </form>
+            </div>
+
+            <!-- Fare Matrix Info -->
+            <div class="alert alert-info mt-3">
+                <strong>Base Fare:</strong> ₱15.00 (First 4km)<br>
+                <strong>Per succeeding km:</strong> ₱2.00
+            </div>
+
+        </div>
+    </div>
+</div>

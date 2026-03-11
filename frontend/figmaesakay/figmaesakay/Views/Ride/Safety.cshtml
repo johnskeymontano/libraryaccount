@@ -1,0 +1,50 @@
+@{ 
+    ViewData["Title"] = "Safety"; 
+    Layout = null; // Special layout for full screen
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body { background-color: #DC2626; color: white; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .sos-circle { width: 150px; height: 150px; border: 4px solid rgba(255,255,255,0.3); border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; animation: pulse 2s infinite; margin-bottom: 30px; }
+        .sos-inner { background: white; color: #DC2626; width: 120px; height: 120px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; }
+        .btn-outline-white { border: 1px solid white; color: white; border-radius: 50px; padding: 12px 20px; width: 100%; margin-bottom: 10px; background: rgba(255,255,255,0.1); }
+        .app-container { max-width: 450px; width: 100%; padding: 20px; }
+        @@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); } 70% { box-shadow: 0 0 0 20px rgba(255, 255, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); } }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Close Button -->
+        <a href="/Home/Index" style="position: absolute; top: 20px; right: 20px; color: white; font-size: 1.5rem;"><i class="fa-solid fa-xmark"></i></a>
+
+        <div class="sos-circle">
+            <div class="sos-inner">SOS</div>
+        </div>
+
+        <h3>Emergency SOS</h3>
+        <p class="mb-5 text-white-50">Hold for 3 seconds to alert authorities</p>
+
+        <button class="btn btn-light text-danger fw-bold w-100 py-3 rounded-pill mb-3">
+            <i class="fa-solid fa-phone me-2"></i> Call Police (PNP)
+        </button>
+
+        <button class="btn btn-outline-white">
+            <i class="fa-solid fa-house-medical me-2"></i> Call Barangay
+        </button>
+
+        <button class="btn btn-outline-white">
+            <i class="fa-solid fa-fire-extinguisher me-2"></i> Call Fire Dept
+        </button>
+
+        <button class="btn btn-outline-white mt-3" style="background: rgba(0,0,0,0.2); border:none;">
+            <i class="fa-solid fa-share-nodes me-2"></i> Share Live Location
+        </button>
+    </div>
+</body>
+</html>

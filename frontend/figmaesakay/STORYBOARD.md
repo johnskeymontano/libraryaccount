@@ -1,0 +1,529 @@
+# 📐 eSakay Gensan - Visual Storyboard
+
+## Interactive Prototype Storyboard Map
+
+This document visualizes the complete user flow and screen connections for the eSakay Gensan prototype.
+
+---
+
+## 🗺️ Complete User Journey Map
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                        ESAKAY GENSAN                                │
+│                    Complete User Flow Map                           │
+└─────────────────────────────────────────────────────────────────────┘
+
+START
+  ↓
+┌─────────────────────┐
+│  01_SplashScreen    │ ← Auto-advance (2.5s)
+│  ━━━━━━━━━━━━━━━━━  │
+│  • eSakay Logo      │
+│  • Tagline          │
+│  • Loading Spinner  │
+└──────────┬──────────┘
+           ↓
+┌─────────────────────┐
+│ 02_Onboarding_1     │ ← Swipeable Carousel
+│  ━━━━━━━━━━━━━━━━━  │
+│  Find rides faster  │
+│  • GPS Icon         │
+│  • Description      │
+│  [Skip] [Next →]    │
+└──────┬──────┬───────┘
+       │      ↓
+       │  ┌─────────────────────┐
+       │  │ 03_Onboarding_2     │
+       │  │  ━━━━━━━━━━━━━━━━━  │
+       │  │  Real-time GPS      │
+       │  │  • Phone Icon       │
+       │  │  [Skip] [Next →]    │
+       │  └──────┬──────┬───────┘
+       │         │      ↓
+       │         │  ┌─────────────────────┐
+       │         │  │ 04_Onboarding_3     │
+       │         │  │  ━━━━━━━━━━━━━━━━━  │
+       │         │  │  Safety + SOS       │
+       │         │  │  • Shield Icon      │
+       │         │  │  [Skip] [Get Started]│
+       │         │  └──────┬──────────────┘
+       └─────────┴─────────┘
+                  ↓
+       ┌─────────────────────┐
+       │ 05_LoginRegister    │ ← Toggle between Login/Register
+       │  ━━━━━━━━━━━━━━━━━  │
+       │  • Email Input      │
+       │  • Password Input   │
+       │  [Login] [Google]   │
+       │  [GCash] [Create]   │
+       └──────────┬──────────┘
+                  ↓
+       ┌─────────────────────┐
+       │ 06_HomeDashboard    │ ← Main Hub
+       │  ━━━━━━━━━━━━━━━━━  │
+       │  Header [🔔] [👤]   │
+       │  Quick Actions:     │
+       │  ┌──┬──┬──┐        │
+       │  │📍│🧮│🗺️│        │
+       │  ├──┼──┼──┤        │
+       │  │💳│🛡️│👥│        │
+       │  └──┴──┴──┘        │
+       │  [🚨 Emergency SOS] │
+       │  Recent Trips       │
+       │  Service Updates    │
+       │  [Nav Bar]          │
+       └───┬─┬─┬─┬─┬─┬─┬────┘
+           │ │ │ │ │ │ │
+           │ │ │ │ │ │ └────────┐
+           │ │ │ │ │ └──────┐   │
+           │ │ │ │ └────┐   │   │
+           │ │ │ └──┐   │   │   │
+           │ │ └─┐  │   │   │   │
+           │ └┐  │  │   │   │   │
+           ↓  ↓  ↓  ↓   ↓   ↓   ↓
+        ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──────┐
+        │📍│ │🧮│ │🗺️│ │💳│ │🛡️│ │👥│ │ 👤   │
+        │  │ │  │ │  │ │  │ │  │ │  │ │      │
+        └─┬┘ └─┬┘ └─┬┘ └─┬┘ └─┬┘ └─┬┘ └──┬───┘
+          ↓    ↓    ↓    ↓    ↓    ↓     ↓
+
+┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐
+│ 07_Live     │ │ 08_Fare     │ │ 09_Route    │ │ 10_Payment  │ │ 11_Safety   │ │ 12_Community│ │ 13_Profile  │
+│ Tracking    │ │ Calculator  │ │ Finder      │ │             │ │ Center      │ │             │ │             │
+│ ─────────── │ │ ─────────── │ │ ─────────── │ │ ─────────── │ │ ─────────── │ │ ─────────── │ │ ─────────── │
+│ • Map View  │ │ • Vehicle   │ │ • Pickup    │ │ • GCash     │ │ • SOS Button│ │ • Categories│ │ • Info      │
+│ • Vehicles  │ │   Type      │ │   Input     │ │ • Maya      │ │ • Emergency │ │ • Report    │ │ • History   │
+│ • Markers   │ │ • Locations │ │ • Destin.   │ │ • Beep Card │ │   Contacts  │ │   Form      │ │ • Settings  │
+│ • Filters   │ │ • Discounts │ │ • 3 Routes  │ │ • QR Code   │ │ • Share Trip│ │ • Feed      │ │ • Logout    │
+│ [Nav Bar]   │ │ [Nav Bar]   │ │ [Nav Bar]   │ │ [Nav Bar]   │ │ [Nav Bar]   │ │ [Nav Bar]   │ │ [Nav Bar]   │
+└─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘ └──────┬──────┘ └─────────────┘ └─────────────┘
+                                                                         ↓
+                                                              ┌─────────────────────┐
+                                                              │ 14_SOSEmergency     │
+                                                              │  ━━━━━━━━━━━━━━━━━  │
+                                                              │  FULL SCREEN RED    │
+                                                              │  [Hold 3s]          │
+                                                              │  • Alert Sent       │
+                                                              │  • Call Police      │
+                                                              │  • Call Barangay    │
+                                                              │  • Share Location   │
+                                                              │  [✕ Close]          │
+                                                              └─────────────────────┘
+
+═════════════════════════════════════════════════════════════════════════════════
+
+MODE SWITCHING (Top Right Controls)
+
+┌─────────────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
+│ COMMUTER MODE       │     │ DRIVER MODE         │     │ ADMIN MODE          │
+│ (Above Flow)        │────▶│ 15_DriverDashboard  │────▶│ 16_AdminDashboard   │
+│ [👤 Commuter]       │     │  ━━━━━━━━━━━━━━━━━  │     │  ━━━━━━━━━━━━━━━━━  │
+└─────────────────────┘     │  • Online Toggle    │     │  Sidebar:           │
+                            │  • Stats Cards      │     │  • Dashboard        │
+                            │  • Current Route    │     │  • Users            │
+                            │  • Active Trip      │     │  • Drivers          │
+                            │  • Quick Actions    │     │  • Vehicles         │
+                            │  [🚗 Driver]        │     │  • Routes           │
+                            └─────────────────────┘     │  • Fares            │
+                                                        │  • SOS Alerts       │
+                                                        │  • Reports          │
+                                                        │  • Payments         │
+                                                        │  • Settings         │
+                                                        │  Main Area:         │
+                                                        │  • Stats Grid       │
+                                                        │  • Alerts           │
+                                                        │  • Verification     │
+                                                        │  • Live Map         │
+                                                        │  [⚙️ Admin]         │
+                                                        └─────────────────────┘
+```
+
+---
+
+## 🎯 Interaction Hotspots by Screen
+
+### 01_SplashScreen
+```
+┌─────────────────────────┐
+│                         │
+│    [eSakay Logo] 🚀     │ ← Non-interactive
+│                         │
+│  "Pinoy Mobility for    │ ← Non-interactive
+│   Smart, Safe, and      │
+│   Connected Transport"  │
+│                         │
+│    [Loading Spinner]    │ ← Auto-animation
+│                         │
+└─────────────────────────┘
+```
+**Auto-navigation**: After 2.5s → Onboarding
+
+---
+
+### 02-04_Onboarding (3 Screens)
+```
+┌─────────────────────────┐
+│     [Skip] ────────────→│ → To Login
+│                         │
+│    [Large Icon] 💡      │ ← Non-interactive
+│                         │
+│   "Feature Title"       │ ← Non-interactive
+│   Description text...   │
+│                         │
+│    ● ○ ○               │ ← Progress indicator
+│                         │
+│    [Next Button] ────→ │ → Next screen / Login
+└─────────────────────────┘
+```
+
+---
+
+### 05_LoginRegister
+```
+┌─────────────────────────┐
+│    [Logo] 🏢            │
+│                         │
+│  "Welcome to eSakay"    │
+│                         │
+│  [Email Input] ──────── │ ← Text input
+│  [Password Input] ───── │ ← Password input
+│  [👁️ Show/Hide] ───────→│ ← Toggle
+│                         │
+│  [Forgot Password?] ───→│ ← Link
+│                         │
+│  [Login Button] ───────→│ → Home Dashboard
+│                         │
+│  — or —                 │
+│                         │
+│  [Continue w/ Google] ─→│ → Home Dashboard
+│  [Continue w/ GCash] ──→│ → Home Dashboard
+│                         │
+│  [Create Account] ─────→│ ← Toggle mode
+└─────────────────────────┘
+```
+
+---
+
+### 06_HomeDashboard
+```
+┌─────────────────────────┐
+│ eSakay Gensan [🔔] [👤]│ ← Bell & Profile clickable
+│ Smart, Safe, Connected  │
+├─────────────────────────┤
+│ Welcome Card            │
+│ Juan dela Cruz          │
+│ 📍 Brgy. Fatima Uhaw    │
+├─────────────────────────┤
+│ Quick Actions:          │
+│ ┌──────┬──────┬──────┐ │
+│ │ [📍] │ [🧮] │ [🗺️] │←│ Track | Fare | Route
+│ │Track │ Fare │Route │ │
+│ ├──────┼──────┼──────┤ │
+│ │ [💳] │ [🛡️] │ [👥] │←│ Pay | Safety | Community
+│ │ Pay  │Safety│Comm. │ │
+│ └──────┴──────┴──────┘ │
+│                         │
+│ [🚨 Emergency SOS] ────→│ → SOS Screen
+│                         │
+│ Recent Trips:           │
+│ ┌─────────────────────┐│
+│ │ Trip 1 [Card] ──────→││ ← Clickable
+│ └─────────────────────┘│
+│ ┌─────────────────────┐│
+│ │ Trip 2 [Card] ──────→││
+│ └─────────────────────┘│
+│                         │
+│ Service Updates:        │
+│ [Info Card with Alert]  │
+├─────────────────────────┤
+│ [Nav Bar: 🏠📍🧮🗺️🛡️👥]│ ← All clickable
+└─────────────────────────┘
+```
+
+---
+
+### 14_SOSEmergency (Full Screen)
+```
+┌─────────────────────────┐
+│ RED BACKGROUND          │
+│           [✕ Close] ───→│ → Previous screen
+│                         │
+│                         │
+│   ┌─────────────────┐   │
+│   │                 │   │
+│   │   [🚨 HOLD]     │←──│ Hold 3 seconds
+│   │                 │   │
+│   │   Countdown: 3  │   │
+│   │                 │   │
+│   └─────────────────┘   │
+│                         │
+│  "Hold for 3 seconds    │
+│   to alert authorities" │
+│                         │
+│ [Call Police] ─────────→│ → Phone call
+│ [Call Barangay] ───────→│ → Phone call
+│ [Call Fire Dept] ──────→│ → Phone call
+│ [Share Location] ──────→│ → Share
+│                         │
+│ 📍 Current Location:    │
+│ Brgy. Fatima Uhaw       │
+└─────────────────────────┘
+```
+
+---
+
+### 15_DriverDashboard
+```
+┌─────────────────────────┐
+│ [☰] Driver Mode [⚙️]    │
+│ TRC-1029 • Tricycle     │
+│                         │
+│ Status: [Toggle] ──────→│ ← Online/Offline
+│ [○────●] Online         │
+├─────────────────────────┤
+│ Stats Grid:             │
+│ ┌─────┬─────┬─────┬───┐│
+│ │ ₱850│ 12  │ 6.5 │4.8││ ← Info cards
+│ │Today│Trips│Hours│Rate││
+│ └─────┴─────┴─────┴───┘│
+├─────────────────────────┤
+│ Current Route:          │
+│ Fatima – Lagao          │
+│ Capacity: 2/4           │
+├─────────────────────────┤
+│ Active Trip:            │
+│ [Passenger Info]        │
+│ 📍 Pickup → Destination │
+│ ₱25.00                  │
+│ [📞 Call] [✓ Complete]←─│ Action buttons
+├─────────────────────────┤
+│ Quick Actions:          │
+│ ┌─────┬─────┬─────┬───┐│
+│ │ QR  │ Nav │Earn │Route││ ← All clickable
+│ └─────┴─────┴─────┴───┘│
+│                         │
+│ [Simulate New Trip] ───→│ ← Demo button
+└─────────────────────────┘
+```
+
+---
+
+### 16_AdminDashboard
+```
+┌─────┬───────────────────────────────────────┐
+│ [≡] │ Dashboard Overview                    │
+│ eS  │ Welcome back, Admin   [Export] [👤]  │
+├─────┼───────────────────────────────────────┤
+│📊 ● │ Stats Grid (6 cards):                 │
+│👥   │ ┌─────┬─────┬─────┬─────┬─────┬────┐ │
+│🚗   │ │Users│Drive│Vehic│Route│Reprt│SOS │ │
+│🚙   │ │12.4k│ 342 │ 289 │ 24  │ 18  │ 3  │ │
+│🗺️   │ └─────┴─────┴─────┴─────┴─────┴────┘ │
+│💰   │                                       │
+│🚨 ● │ Recent Alerts:                        │
+│💬   │ ┌──────────────────────────────────┐  │
+│🛡️   │ │ Alert 1 [View] ─────────────────→│  │
+│⚙️   │ │ Alert 2 [View] ─────────────────→│  │
+│     │ │ Alert 3 [View] ─────────────────→│  │
+└─────┤ └──────────────────────────────────┘  │
+ All  │                                       │
+Click │ Driver Verification Table:            │
+able  │ ┌──────────────────────────────────┐  │
+      │ │ Name │ Type │ Docs │ [Review] [✓]│  │
+      │ │ ───────────────────────────────  │  │
+      │ │ Row 1 ────────────────────────→ │  │
+      │ │ Row 2 ────────────────────────→ │  │
+      │ └──────────────────────────────────┘  │
+      │                                       │
+      │ Live Map:                             │
+      │ ┌──────────────────────────────────┐  │
+      │ │ [Map visualization]               │  │
+      │ │ 289 vehicles active               │  │
+      │ └──────────────────────────────────┘  │
+      └───────────────────────────────────────┘
+```
+
+---
+
+## 🎬 Prototype Controls Layer
+
+```
+┌──────────────── SCREEN VIEW ────────────────┐
+│                                             │
+│  ┌────────────────────────────────────┐    │
+│  │ Screen Flow History (Top Left)     │    │
+│  │ ┌────────────────────────────────┐ │    │
+│  │ │ Step 1: Splash Screen          │ │    │
+│  │ │ Step 2: Onboarding             │ │    │
+│  │ │ Step 3: Login                  │ │    │
+│  │ │ Step 4: Home Dashboard    ← ● │ │    │
+│  │ └────────────────────────────────┘ │    │
+│  └────────────────────────────────────┘    │
+│                                             │
+│         [App Content Area]                  │
+│                                             │
+│  ┌────────────────────────────────────┐    │
+│  │ Mode Switcher (Top Right)          │    │
+│  │ ┌──────┬──────┬──────┐            │    │
+│  │ │👤 ●  │🚗    │⚙️    │            │    │
+│  │ └──────┴──────┴──────┘            │    │
+│  │                                    │    │
+│  │ Transition:                        │    │
+│  │ [Slide●] [Fade] [Dissolve]        │    │
+│  │                                    │    │
+│  │ [💡 Hints: ON]                     │    │
+│  └────────────────────────────────────┘    │
+│                                             │
+│  ┌────────────────────────────────────┐    │
+│  │ Prototype Controller (Bottom)      │    │
+│  │ ┌────────────────────────────────┐ │    │
+│  │ │ 📺 Current: Home Dashboard     │ │    │
+│  │ │ [⏸️] [🔄 Reset] [●] [Hide]     │ │    │
+│  │ └────────────────────────────────┘ │    │
+│  └────────────────────────────────────┘    │
+└─────────────────────────────────────────────┘
+```
+
+---
+
+## 📊 Interaction Statistics
+
+### Total Screens: 16
+- Splash: 1
+- Onboarding: 3
+- Auth: 1
+- Commuter App: 7
+- Special: 1 (SOS)
+- Driver: 1
+- Admin: 1
+- Navigation: 1
+
+### Total Clickable Elements: 150+
+- Buttons: 80+
+- Links: 20+
+- Input Fields: 15+
+- Cards: 25+
+- Navigation Items: 10+
+
+### Total Unique Interactions: 200+
+- Screen Transitions: 30+
+- Button Clicks: 100+
+- Form Submissions: 10+
+- Mode Switches: 3
+- Toggles: 5+
+- Hover States: 50+
+
+---
+
+## 🎨 Visual Design Tokens
+
+### Colors Used in Storyboard
+- 🔵 Primary Blue (`#0156D1`) - Main actions
+- 🟡 Primary Yellow (`#FEC400`) - Accents
+- 🟢 Eco Green (`#2DBA4E`) - Success
+- 🔴 Error Red (`#C62828`) - Warnings/SOS
+- ⚫ Dark Navy (`#0C1A36`) - Text
+- ⚪ Light Gray (`#F5F5F5`) - Backgrounds
+
+### Icon Legend
+- 🏠 Home
+- 📍 Location/Tracking
+- 🧮 Calculator
+- 🗺️ Routes/Maps
+- 💳 Payment
+- 🛡️ Safety
+- 👥 Community
+- 👤 Profile
+- 🚨 Emergency
+- 🚗 Driver
+- ⚙️ Settings/Admin
+- 🔔 Notifications
+- 📞 Phone/Call
+- 📧 Email
+- 🔒 Password/Security
+
+---
+
+## 🔗 Navigation Flow Legend
+
+```
+─────→  Direct navigation (click/tap)
+─ ─ ─→  Conditional navigation
+══════→ Auto-navigation
+   ↓    Flow progression
+   ↕    Bidirectional
+   ↻    Loop/Return
+   ⇄    Toggle/Switch
+```
+
+---
+
+## 📝 State Indicators
+
+```
+[Element]       Clickable element
+{Element}       Dynamic content
+<Element>       Input field
+(Element)       Information display
+●               Active state
+○               Inactive state
+[Element] ──→   Action with destination
+```
+
+---
+
+## 🎯 Critical User Paths
+
+### Path 1: First-Time User (Complete Onboarding)
+```
+Splash → Onboarding 1 → Onboarding 2 → Onboarding 3 → Login → Home
+Time: ~60 seconds
+Clicks: 4 (3 Next + 1 Login)
+```
+
+### Path 2: Quick Start (Skip Onboarding)
+```
+Splash → Onboarding 1 [Skip] → Login → Home
+Time: ~15 seconds
+Clicks: 2 (Skip + Login)
+```
+
+### Path 3: Emergency SOS
+```
+Any Screen → Home → [SOS Button] → SOS Screen → [Call Police]
+Time: ~5 seconds
+Clicks: 3
+```
+
+### Path 4: Calculate Fare
+```
+Home → [Fare Calculator] → Select Vehicle → Enter Locations → [Calculate]
+Time: ~30 seconds
+Clicks: 4
+```
+
+### Path 5: Find and Track Vehicle
+```
+Home → [Track Vehicle] → Select Filter → [Vehicle] → View Details
+Time: ~20 seconds
+Clicks: 3
+```
+
+### Path 6: Driver Workflow
+```
+Home → [Switch to Driver] → [Toggle Online] → [New Trip] → [Complete]
+Time: ~45 seconds
+Clicks: 4
+```
+
+### Path 7: Admin Management
+```
+Home → [Switch to Admin] → [Drivers] → [Review] → [Approve]
+Time: ~30 seconds
+Clicks: 4
+```
+
+---
+
+This storyboard provides a complete visual map of your interactive prototype, ready for AVP recording and presentation! 🎬

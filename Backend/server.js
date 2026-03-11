@@ -68,5 +68,7 @@ app.patch('/api/books/:id', async (req, res) => {
     res.json(updated);
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+// Health Check Route - para malaman kung buhay ang server
+app.get("/", (req, res) => {
+    res.send("🚀 Library API is running and connected to MongoDB!");
+});

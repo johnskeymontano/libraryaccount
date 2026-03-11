@@ -7,7 +7,8 @@ import {
 } from 'react-icons/fa';
 import './App.css';
 
-const API = "http://localhost:5000/api";
+// DITO ANG PAGBABAGO: Babasahin na nito ang variable sa Render
+const API = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 // --- LOGIN PAGE ---
 const Login = () => {
@@ -114,7 +115,7 @@ const Dashboard = () => {
     useEffect(() => { 
         if(!user) navigate('/');
         fetchBooks(); 
-    }, []);
+    }, [user, navigate]);
 
     const addBook = async (e) => {
         e.preventDefault();
@@ -137,7 +138,6 @@ const Dashboard = () => {
 
     return (
         <div className="dashboard-layout">
-            {/* SIDEBAR */}
             <aside className="lib-sidebar">
                 <div className="sidebar-brand"><FaBookOpen/> LibPortal</div>
                 <div className="nav-item active"><FaThLarge/> Dashboard</div>
@@ -151,7 +151,6 @@ const Dashboard = () => {
                 </div>
             </aside>
 
-            {/* MAIN CONTENT */}
             <main className="main-content">
                 <nav className="lib-navbar">
                     <div style={{fontWeight: 'bold'}}>Library Management</div>

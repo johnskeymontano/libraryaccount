@@ -10,12 +10,9 @@ const app = express();
 app.use(express.json());
 
 // --- CORS UPDATE ---
-// Pinapayagan nito ang iyong Render frontend na makipag-usap sa backend
-app.use(cors({
-    origin: "https://library-frontend-fpbs.onrender.com", 
-    methods: ["GET", "POST", "PATCH", "DELETE"],
-    credentials: true
-}));
+// Ginawa nating simple ito para payagan ang kahit anong URL ng frontend mo
+// Ito ang mag-aayos sa "Blocked by CORS policy" error
+app.use(cors()); 
 
 // --- DATABASE CONNECTION ---
 mongoose.connect(process.env.MONGO_URI)
@@ -38,24 +35,46 @@ const Book = mongoose.model('Book', new mongoose.Schema({
 }));
 
 // --- ROUTES ---
+
+// Health Check Route (Para makita kung running ang server)
+app.get("/", (req, res) => {
+    res.send("🚀 Library API is running and connected to MongoDB!");
+});
+
+// REGISTER
 app.post('/api/register', async (req, res) => {
     try {
         const { name, email, password, role } = req.body;
+        
+        // Check muna kung may account na ang email na ito
+        const existingUser = await User.findOne({ email });
+        if (existingUser) return res.status(400).json({ message: "Email already taken" });
+
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new User({ name, email, password: hashedPassword, role });
         await newUser.save();
-        res.json({ message: "Account Created!" });
-    } catch (e) { res.status(400).json({ message: "Email exists" }); }
+        res.json({ message: "Account Created Successfully!" });
+    } catch (e) { 
+        res.status(500).json({ message: "Error in registration" }); 
+    }
 });
 
+// LOGIN
 app.post('/api/login', async (req, res) => {
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) return res.status(400).json({ message: "User not found" });
-    const isMatch = await bcrypt.compare(req.body.password, user.password);
-    if (!isMatch) return res.status(400).json({ message: "Invalid Password" });
-    res.json({ user });
+    try {
+        const user = await User.findOne({ email: req.body.email });
+        if (!user) return res.status(400).json({ message: "User not found" });
+        
+        const isMatch = await bcrypt.compare(req.body.password, user.password);
+        if (!isMatch) return res.status(400).json({ message: "Invalid Password" });
+        
+        res.json({ user });
+    } catch (e) {
+        res.status(500).json({ message: "Login Error" });
+    }
 });
 
+// BOOKS MANAGEMENT
 app.get('/api/books', async (req, res) => {
     const books = await Book.find();
     res.json(books);
@@ -77,15 +96,10 @@ app.patch('/api/books/:id', async (req, res) => {
     res.json(updated);
 });
 
-// Health Check Route
-app.get("/", (req, res) => {
-    res.send("🚀 Library API is running and connected to MongoDB!");
-});
-
-// --- SERVER LISTENER UPDATE PARA SA RENDER ---
+// --- SERVER LISTENER PARA SA RENDER ---
 const PORT = process.env.PORT || 10000; 
 
-// Napaka-importante ng '0.0.0.0' para mabasa ni Render ang port mo
+// Ang '0.0.0.0' ay kailangan para ma-detect ni Render ang iyong service
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`🚀 Server is officially running on port ${PORT}`);
 });

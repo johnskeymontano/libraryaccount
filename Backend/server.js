@@ -5,8 +5,17 @@ const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
 const app = express();
+
+// --- MIDDLEWARES ---
 app.use(express.json());
-app.use(cors());
+
+// --- CORS UPDATE ---
+// Pinapayagan nito ang iyong Render frontend na makipag-usap sa backend
+app.use(cors({
+    origin: "https://library-frontend-fpbs.onrender.com", 
+    methods: ["GET", "POST", "PATCH", "DELETE"],
+    credentials: true
+}));
 
 // --- DATABASE CONNECTION ---
 mongoose.connect(process.env.MONGO_URI)
@@ -68,7 +77,15 @@ app.patch('/api/books/:id', async (req, res) => {
     res.json(updated);
 });
 
-// Health Check Route - para malaman kung buhay ang server
+// Health Check Route
 app.get("/", (req, res) => {
     res.send("🚀 Library API is running and connected to MongoDB!");
+});
+
+// --- SERVER LISTENER UPDATE PARA SA RENDER ---
+const PORT = process.env.PORT || 10000; 
+
+// Napaka-importante ng '0.0.0.0' para mabasa ni Render ang port mo
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`🚀 Server is officially running on port ${PORT}`);
 });
